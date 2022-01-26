@@ -12,7 +12,10 @@ module.exports = {
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+
+    // Use kebab-case in component templates
+    'vue/component-name-in-template-casing': ['error', 'PascalCase']
   },
   overrides: [
     {
