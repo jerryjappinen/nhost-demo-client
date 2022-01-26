@@ -1,29 +1,33 @@
 # nhost-demo-client
 
-## Project setup
-```
+This is a demo app with an [Nhost](https://nhost.io/) backend.
+
+## Local setup
+
+Recommended node version is 14 LTS or 16 LTS.
+
+```sh
+# Install dependencies
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
+You can override environment variables locally by adding an `.env.local` file to the project.
+
+### Commands
+
+```sh
+# Start project locally
 npm run serve
-```
 
-### Compiles and minifies for production
-```
+# Build static app
 npm run build
-```
 
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
+# Lint and test
 npm run lint
+npm run test
+npm run test:watch
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Project configuration
+
+`vue.config.js` defines some parts of the build process that impact the app. See [Vue CLI configuration reference](https://cli.vuejs.org/config/) for more details.
