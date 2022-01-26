@@ -3,21 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "16.x",
-    "npm": "8.1.2"
+    "node": "14.x",
+    "npm": "6.14.15"
   },
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
+    "test": "vue-cli-service test:unit",
+    "test:watch": "npm run test -- --watch",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@nhost/nhost-js": "^0.3.6",
     "core-js": "^3.6.5",
     "normalize.css": "^8.0.1",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vue": "^3.2.29",
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
