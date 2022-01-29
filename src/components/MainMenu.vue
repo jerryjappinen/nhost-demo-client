@@ -1,0 +1,81 @@
+<script>
+// import UserIcon from '@/svg/User.svg'
+// import TrayIcon from '@/svg/Tray.svg'
+
+export default {
+
+  data () {
+    return {
+      links: [
+
+        {
+          // icon: TrayIcon,
+          label: 'Uploads',
+          to: {
+            name: 'uploads'
+          }
+        },
+
+        {
+          // icon: UserIcon,
+          label: 'Profile',
+          to: {
+            name: 'profile'
+          }
+        }
+
+      ]
+    }
+  },
+
+  methods: {
+
+    linkIsActive (to) {
+      return this.$route.name === to.name
+    }
+
+  }
+
+}
+</script>
+
+<template>
+  <div class="menu">
+    <router-link
+      v-for="{ icon, label, to } in links"
+      :key="label"
+      :to="to"
+      :class="{
+        active: linkIsActive(to)
+      }"
+      class="link"
+    >
+      <component
+        :is="icon"
+        v-if="icon"
+      />
+      {{ label }}
+    </router-link>
+  </div>
+</template>
+
+<style scoped>
+
+.menu {
+  display: flex;
+  width: 100%;
+}
+
+.link {
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  text-align: center;
+}
+
+.link:not(.active) {
+  opacity: 0.4;
+}
+
+</style>

@@ -7,11 +7,13 @@
     "npm": "6.14.15"
   },
   "scripts": {
-    "serve": "vue-cli-service serve --open",
+    "serve": "vue-cli-service serve",
+    "open": "npm run serve -- --open",
     "build": "vue-cli-service build",
     "test": "vue-cli-service test:unit",
     "test:watch": "npm run test -- --watch",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "vue": "vue add svg"
   },
   "dependencies": {
     "@nhost/nhost-js": "^0.3.6",

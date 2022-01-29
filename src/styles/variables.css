@@ -1,0 +1,120 @@
+html {
+
+  /* Dimensions */
+  --radius-tiny: 2px;
+  --radius-small: 4px;
+  --radius-medium: 8px;
+  --radius-large: 16px;
+  --radius-very-large: 32px;
+
+  /* Line height */
+  --line-height: 1.444;
+  --line-height-em: 1.444em;
+  --line-height-rem: 1.444rem;
+
+  --line-height-tight: 1.2;
+  --line-height-tight-em: 1.2em;
+  --line-height-tight-rem: 1.2rem;
+
+  --line-height-loose: 1.667;
+  --line-height-loose-em: 1.667em;
+  --line-height-loose-rem: 1.667rem;
+
+  /* Greyscale */
+  --black: rgba(0, 0, 0, 1);
+  --very-dark: rgba(14, 24, 39, 1);
+  --dark: rgba(33, 50, 75, 1);
+  --dark-grey: rgba(85, 99, 120, 1);
+  --grey: rgba(156, 167, 183, 1);
+  --light-grey: rgba(194, 202, 214, 1);
+  --very-light-grey: rgba(234, 237, 240, 1);
+  --very-very-light-grey: rgba(244, 247, 249, 1);
+  --white: rgba(255, 255, 255, 1);
+
+  --dark-translucent-heavy: rgba(38, 50, 69, 0.75);
+  --dark-translucent-medium: rgba(9, 34, 72, 0.4000000059604645);
+  --dark-translucent-light: rgba(0, 35, 88, 0.20000000298023224);
+  --dark-translucent-very-light: rgba(0, 35, 88, 0.1599999964237213);
+  --dark-translucent-very-light: rgba(0, 35, 88, 0.10000000149011612);
+  --dark-translucent-very-very-light: rgba(0, 35, 88, 0.05999999865889549);
+
+  --white-translucent-heavy: rgba(255, 255, 255, 0.75);
+  --white-translucent-medium: rgba(255, 255, 255, 0.4000000059604645);
+  --white-translucent-light: rgba(255, 255, 255, 0.20000000298023224);
+  --white-translucent-very-light: rgba(255, 255, 255, 0.10000000149011612);
+
+  /* Color styles */
+  --blue-light: rgba(55, 135, 255, 1);
+  --blue: rgba(0, 82, 205, 1);
+  --blue-dark: rgba(6, 55, 153, 1);
+  --purple-light: rgba(156, 115, 223, 1);
+  --purple: rgba(78, 0, 205, 1);
+  --purple-dark: rgba(49, 0, 130, 1);
+  --green-light: rgba(170, 240, 204, 1);
+  --green: rgba(98, 209, 152, 1);
+  --green-dark: rgba(59, 177, 116, 1);
+  --yellow: rgba(255, 255, 0, 1);
+  --orange-light: rgba(255, 189, 89, 1);
+  --orange: rgba(255, 154, 35, 1);
+  --orange-dark: rgba(237, 114, 0, 1);
+  --red-light: rgba(255, 92, 122, 1);
+  --red: rgba(241, 49, 84, 1);
+  --red-dark: rgba(201, 23, 55, 1);
+
+  --blue-light-translucent: rgba(55, 135, 255, 0.15000000596046448);
+  --green-light-translucent: rgba(98, 209, 152, 0.20000000298023224);
+  --orange-light-translucent: rgba(255, 154, 35, 0.20000000298023224);
+  --red-light-translucent: rgba(241, 49, 84, 0.20000000298023224);
+
+  /* Text-size styles */
+  --font-system: -apple-system, system-ui, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;
+
+  --heading-h1: 40px;
+  --heading-h2: 26px;
+  --heading-h3: 18px;
+  --heading-h4: 15px;
+  --heading-h5: 12px;
+
+  --body-tiny: 12px;
+  --body-small: 15px;
+  --body-medium: 18px;
+  --body-large: 26px;
+  --body-massive: 36px;
+
+  --display-h1-oversized: 120px;
+  --display-h1: 80px;
+  --display-h2: 56px;
+  --display-h3: 36px;
+  --display-h4: 26px;
+
+  --label-small: 12px;
+  --label-small-natural-case: 12px;
+  --label-large: 15px;
+  --label-large-natural-case: 17px;
+
+  --code-tiny: 11px;
+  --code-small: 13px;
+  --code-medium: 15px;
+  --code-large: 20px;
+
+  /* Shadows */
+  --shadow-1:  0px 1px 3px rgba(14, 24, 39, 0.2);
+  --shadow-2:  0px 8px 24px rgba(14, 24, 39, 0.1), 0px 1px 4px rgba(14, 24, 39, 0.1);
+  --shadow-3:  0px 16px 48px rgba(14, 24, 39, 0.1), 0px 1px 4px rgba(14, 24, 39, 0.1);
+  --shadow-4:  0px 32px 128px rgba(14, 24, 39, 0.2);
+
+  --shadow-1-with-stroke:  0px 1px 3px rgba(14, 24, 39, 0.2), 0px 0px 1px rgba(14, 24, 39, 0.25);
+  --shadow-2-with-stroke:  0px 4px 16px rgba(14, 24, 39, 0.2), 0px 0px 2px rgba(14, 24, 39, 0.35);
+  --shadow-3-with-stroke:  0px 12px 48px rgba(14, 24, 39, 0.2), 0px 0px 2px rgba(14, 24, 39, 0.35);
+  --shadow-4-with-stroke:  0px 32px 128px rgba(14, 24, 39, 0.2), 0px 0px 2px rgba(14, 24, 39, 0.35);
+
+  --shadow-dark-1:  0px 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-dark-2:  0px 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-dark-3:  0px 12px 48px rgba(0, 0, 0, 0.5);
+  --shadow-dark-4:  0px 32px 128px rgba(0, 0, 0, 0.4);
+
+  --shadow-dark-1-with-stroke:  0px 1px 3px rgba(0, 0, 0, 0.5), 0px 0px 2px rgba(0, 0, 0, 0.75);
+  --shadow-dark-2-with-stroke:  0px 4px 16px rgba(0, 0, 0, 0.5), 0px 0px 2px rgba(0, 0, 0, 0.75);
+  --shadow-dark-3-with-stroke:  0px 12px 48px rgba(0, 0, 0, 0.5), 0px 0px 2px rgba(0, 0, 0, 0.75);
+  --shadow-dark-4-with-stroke:  0px 32px 128px rgba(0, 0, 0, 0.5), 0px 0px 2px rgba(0, 0, 0, 0.75);
+}

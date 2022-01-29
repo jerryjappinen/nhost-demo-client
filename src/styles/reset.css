@@ -1,0 +1,8 @@
+html {
+  cursor: default;
+}
+
+input,
+button {
+  all: unset;
+}
