@@ -1,4 +1,5 @@
 <script>
+import Uploader from '@/components/Uploader'
 import UploadTeaser from '@/components/UploadTeaser'
 
 import formatFileSize from '@/util/formatFileSize'
@@ -6,6 +7,7 @@ import formatFileSize from '@/util/formatFileSize'
 export default {
 
   components: {
+    Uploader,
     UploadTeaser
   },
 
@@ -69,6 +71,8 @@ export default {
     </teleport>
 
     <!-- File list -->
+    <Uploader />
+
     <div
       v-for="upload in uploads"
       :key="upload.id"
@@ -81,7 +85,7 @@ export default {
 
 <style scoped>
 
-.list-item + .list-item {
+.list-item {
   margin-top: 1em;
 }
 

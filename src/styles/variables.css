@@ -31,6 +31,7 @@ html {
   --very-very-light-grey: rgba(244, 247, 249, 1);
   --white: rgba(255, 255, 255, 1);
 
+  --dark-translucent: var(--dark-translucent-medium);
   --dark-translucent-heavy: rgba(38, 50, 69, 0.75);
   --dark-translucent-medium: rgba(9, 34, 72, 0.4);
   --dark-translucent-light: rgba(0, 35, 88, 0.2);
@@ -38,6 +39,7 @@ html {
   --dark-translucent-very-light: rgba(0, 35, 88, 0.1);
   --dark-translucent-very-very-light: rgba(0, 35, 88, 0.06);
 
+  --white-translucent: var(--white-translucent-medium);
   --white-translucent-heavy: rgba(255, 255, 255, 0.75);
   --white-translucent-medium: rgba(255, 255, 255, 0.4);
   --white-translucent-light: rgba(255, 255, 255, 0.2);
@@ -47,7 +49,7 @@ html {
   --blue-light: rgba(55, 135, 255, 1);
   --blue: rgba(0, 82, 205, 1);
   --blue-dark: rgba(6, 55, 153, 1);
-  --purple-light: rgba(156, 115, 223, 1);
+  --purple-light: rgb(128, 112, 155);
   --purple: rgba(78, 0, 205, 1);
   --purple-dark: rgba(49, 0, 130, 1);
   --green-light: rgba(170, 240, 204, 1);
@@ -61,10 +63,11 @@ html {
   --red: rgba(241, 49, 84, 1);
   --red-dark: rgba(201, 23, 55, 1);
 
-  --blue-light-translucent: rgba(55, 135, 255, 0.15000000596046448);
-  --green-light-translucent: rgba(98, 209, 152, 0.20000000298023224);
-  --orange-light-translucent: rgba(255, 154, 35, 0.20000000298023224);
-  --red-light-translucent: rgba(241, 49, 84, 0.20000000298023224);
+  --blue-translucent: rgba(55, 135, 255, 0.15);
+  --green-translucent: rgba(98, 209, 152, 0.2);
+  --orange-translucent: rgba(255, 154, 35, 0.2);
+  --purple-translucent: rgba(128, 112, 155, 0.2);
+  --red-translucent: rgba(241, 49, 84, 0.2);
 
   /* Text-size styles */
   --font-system: -apple-system, system-ui, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;

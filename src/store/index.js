@@ -6,8 +6,7 @@ export default createStore({
 
   state: {
     // Currently attempting login
-    // We don't use this as the magic link is not
-    // isLoggingIn: false,
+    currentUserIsLoading: false,
 
     // Current user
     currentUserId: null,
@@ -31,6 +30,10 @@ export default createStore({
 
   mutations: {
 
+    setCurrentUserIsLoading (state, isLoading) {
+      state.currentUserIsLoading = !!isLoading
+    },
+
     setCurrentUserId (state, userId) {
       state.currentUserId = userId
     },
@@ -48,10 +51,15 @@ export default createStore({
     },
 
     async refreshLoginStatus ({ commit, state }) {
-      const user = nhost.auth.getUser()
+      const { isAuthenticated, isLoading } = nhost.auth.getAuthenticationStatus()
+
+      console.log('refreshLoginStatus', isAuthenticated, isLoading)
+
+      commit('setCurrentUserIsLoading', isLoading)
 
       // Active session
-      if (user) {
+      if (isAuthenticated) {
+        const user = nhost.auth.getUser()
         commit('storeUser', user)
         commit('setCurrentUserId', user.id)
 

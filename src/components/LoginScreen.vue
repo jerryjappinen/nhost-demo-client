@@ -18,16 +18,16 @@ export default {
 
   computed: {
 
-    // isLoggingIn () {
-    //   return this.$store.state.isLoggingIn
-    // }
+    isLoading () {
+      return this.$store.state.currentUserIsLoading
+    }
 
   },
 
   methods: {
 
     onSubmit () {
-      if (!this.isLoggingIn) {
+      if (!this.isLoading) {
         this.$store.dispatch('sendLoginEmail', this.inputEmail)
         this.emailSent = true
       }
@@ -40,36 +40,35 @@ export default {
 
 <template>
   <div>
-    <p>
-      {{ $store.getters.currentUser }}
-    </p>
-
     <!-- Login options -->
     <div>
-      <p>
-        {{
-          emailSent
-            ? 'We sent a login link to your email'
-            : isLoggingIn
-              ? '...'
-              : 'Please log in to continue'
-        }}
-      </p>
+      <Card
+        :padding="true"
+        class="card"
+      >
+        <p>
+          {{
+            emailSent
+              ? 'We sent a login link to your email'
+              : isLoading
+                ? '...'
+                : 'Please log in to continue'
+          }}
+        </p>
 
-      <Card :padding="true">
         <form @submit.prevent="onSubmit">
           <p>
             <input
               v-model="inputEmail"
               placeholder="Email"
-              :disabled="!!emailSent"
+              :disabled="emailSent"
               type="email"
               class="input"
             >
           </p>
 
           <ClickButton
-            :disabled="emailSent"
+            :disabled="!!(isLoading || emailSent)"
             type="submit"
           >
             Send Login Link
@@ -79,7 +78,7 @@ export default {
     </div>
 
     <!-- Disclaimer -->
-    <p>
+    <p class="disclaimer">
       <a href="./">
         secureupload.io
       </a>
@@ -93,6 +92,11 @@ export default {
   padding: calc(var(--line-height-tight-em) / 2) var(--line-height-tight-em);
   border-radius: var(--radius-small);
   background-color: var(--white-translucent-very-light);
+}
+
+.card,
+.disclaimer {
+  text-align: center;
 }
 
 </style>

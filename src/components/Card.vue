@@ -28,7 +28,7 @@ export default {
 }
 
 .padding {
-  padding: 1em;
+  padding: var(--line-height-tight-em) var(--line-height-tight-em);
 }
 
 </style>

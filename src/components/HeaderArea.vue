@@ -19,8 +19,13 @@ export default {
 
 <template>
   <div class="header-area">
-    <!-- FIXME: Link to correct home page depending on login status -->
-    <Logo class="logo" />
+    <router-link
+      :to="{
+        name: 'uploads'
+      }"
+    >
+      <Logo class="logo" />
+    </router-link>
 
     <div class="spacer" />
 

@@ -27,8 +27,10 @@ export default {
       this.$store.dispatch('refreshLoginStatus')
     })
 
-    // Attempt login upon init
-    this.$store.dispatch('refreshLoginStatus')
+    setTimeout(() => {
+      console.log('Timeout')
+      this.$store.dispatch('refreshLoginStatus')
+    }, 5 * 1000)
   }
 
 }
@@ -64,7 +66,7 @@ export default {
 .routed-content {
   margin-left: auto;
   margin-right: auto;
-  max-width: 32em;
+  max-width: 24em;
   position: relative;
   z-index: 1;
 
