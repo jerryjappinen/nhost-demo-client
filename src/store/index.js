@@ -6,7 +6,8 @@ export default createStore({
 
   state: {
     // Currently attempting login
-    isLoggingIn: false,
+    // We don't use this as the magic link is not
+    // isLoggingIn: false,
 
     // Current user
     currentUserId: null,
@@ -30,18 +31,6 @@ export default createStore({
 
   mutations: {
 
-    startLoggingIn (state) {
-      if (!state.isLoggingIn) {
-        state.isLoggingIn = true
-      }
-    },
-
-    stopLoggingIn (state) {
-      if (state.isLoggingIn) {
-        state.isLoggingIn = false
-      }
-    },
-
     setCurrentUserId (state, userId) {
       state.currentUserId = userId
     },
@@ -54,32 +43,28 @@ export default createStore({
 
   actions: {
 
+    async logOut ({ commit }) {
+      await nhost.auth.signOut()
+    },
+
+    async refreshLoginStatus ({ commit, state }) {
+      const user = nhost.auth.getUser()
+
+      // Active session
+      if (user) {
+        commit('storeUser', user)
+        commit('setCurrentUserId', user.id)
+
+      // No session
+      } else if (state.currentUserId) {
+        commit('setCurrentUserId', null)
+      }
+    },
+
     async sendLoginEmail ({ commit }, email) {
       await nhost.auth.signIn({
         email
       })
-    },
-
-    logIn ({ commit }) {
-      commit('startLoggingIn')
-
-      // await signIn({})
-
-      const user = {
-        id: 'fake-id-654748484674',
-        name: 'Simone Nadal',
-        email: 'simonenadal@gmail.com',
-        avatarUrl: 'https://i.pravatar.cc/80?img=35'
-      }
-
-      commit('storeUser', user)
-      commit('setCurrentUserId', user.id)
-
-      commit('stopLoggingIn')
-    },
-
-    logOut ({ commit }) {
-      commit('setCurrentUserId', null)
     }
 
   }

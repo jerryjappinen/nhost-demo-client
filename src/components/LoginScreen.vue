@@ -11,23 +11,25 @@ export default {
 
   data () {
     return {
-      inputEmail: ''
+      inputEmail: 'eiskis@gmail.com',
+      emailSent: false
     }
   },
 
   computed: {
 
-    isLoggingIn () {
-      return this.$store.state.isLoggingIn
-    }
+    // isLoggingIn () {
+    //   return this.$store.state.isLoggingIn
+    // }
 
   },
 
   methods: {
 
-    onLoginClick () {
+    onSubmit () {
       if (!this.isLoggingIn) {
-        this.$store.dispatch('logIn')
+        this.$store.dispatch('sendLoginEmail', this.inputEmail)
+        this.emailSent = true
       }
     }
 
@@ -45,23 +47,34 @@ export default {
     <!-- Login options -->
     <div>
       <p>
-        {{ isLoggingIn ? '...' : 'Please log in to continue' }}
+        {{
+          emailSent
+            ? 'We sent a login link to your email'
+            : isLoggingIn
+              ? '...'
+              : 'Please log in to continue'
+        }}
       </p>
 
       <Card :padding="true">
-        <p>
-          <input
-            v-bind="inputEmail"
-            placeholder="Email"
-          >
-        </p>
+        <form @submit.prevent="onSubmit">
+          <p>
+            <input
+              v-model="inputEmail"
+              placeholder="Email"
+              :disabled="!!emailSent"
+              type="email"
+              class="input"
+            >
+          </p>
 
-        <ClickButton
-          :disabled="isLoggingIn"
-          @click="onLoginClick"
-        >
-          Send Login Link
-        </ClickButton>
+          <ClickButton
+            :disabled="emailSent"
+            type="submit"
+          >
+            Send Login Link
+          </ClickButton>
+        </form>
       </Card>
     </div>
 
@@ -73,3 +86,13 @@ export default {
     </p>
   </div>
 </template>
+
+<style scoped>
+
+.input {
+  padding: calc(var(--line-height-tight-em) / 2) var(--line-height-tight-em);
+  border-radius: var(--radius-small);
+  background-color: var(--white-translucent-very-light);
+}
+
+</style>

@@ -44,16 +44,16 @@ export default {
     <div v-if="currentUser.avatarUrl">
       <img
         :src="currentUser.avatarUrl"
-        :alt="currentUser.name || currentUser.email"
-        :title="currentUser.name || currentUser.email"
+        :alt="currentUser.displayName || currentUser.email"
+        :title="currentUser.displayName || currentUser.email"
         class="avatar"
       >
     </div>
 
     <!-- Details -->
     <div>
-      <h3 v-if="currentUser.name">
-        {{ currentUser.name }}
+      <h3 v-if="currentUser.displayName">
+        {{ currentUser.displayName }}
       </h3>
 
       <p>

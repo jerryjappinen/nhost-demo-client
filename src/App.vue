@@ -3,6 +3,8 @@ import HeaderArea from '@/components/HeaderArea'
 import LoginScreen from '@/components/LoginScreen'
 import MainMenu from '@/components/MainMenu'
 
+import nhost from '@/util/nhost'
+
 export default {
 
   components: {
@@ -17,6 +19,16 @@ export default {
       return this.$store.getters.isLoggedIn
     }
 
+  },
+
+  mounted () {
+    // Hook up to login provider
+    nhost.auth.onAuthStateChanged(() => {
+      this.$store.dispatch('refreshLoginStatus')
+    })
+
+    // Attempt login upon init
+    this.$store.dispatch('refreshLoginStatus')
   }
 
 }

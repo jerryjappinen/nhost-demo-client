@@ -32,16 +32,16 @@ html {
   --white: rgba(255, 255, 255, 1);
 
   --dark-translucent-heavy: rgba(38, 50, 69, 0.75);
-  --dark-translucent-medium: rgba(9, 34, 72, 0.4000000059604645);
-  --dark-translucent-light: rgba(0, 35, 88, 0.20000000298023224);
-  --dark-translucent-very-light: rgba(0, 35, 88, 0.1599999964237213);
-  --dark-translucent-very-light: rgba(0, 35, 88, 0.10000000149011612);
-  --dark-translucent-very-very-light: rgba(0, 35, 88, 0.05999999865889549);
+  --dark-translucent-medium: rgba(9, 34, 72, 0.4);
+  --dark-translucent-light: rgba(0, 35, 88, 0.2);
+  --dark-translucent-very-light: rgba(0, 35, 88, 0.16);
+  --dark-translucent-very-light: rgba(0, 35, 88, 0.1);
+  --dark-translucent-very-very-light: rgba(0, 35, 88, 0.06);
 
   --white-translucent-heavy: rgba(255, 255, 255, 0.75);
-  --white-translucent-medium: rgba(255, 255, 255, 0.4000000059604645);
-  --white-translucent-light: rgba(255, 255, 255, 0.20000000298023224);
-  --white-translucent-very-light: rgba(255, 255, 255, 0.10000000149011612);
+  --white-translucent-medium: rgba(255, 255, 255, 0.4);
+  --white-translucent-light: rgba(255, 255, 255, 0.2);
+  --white-translucent-very-light: rgba(255, 255, 255, 0.1);
 
   /* Color styles */
   --blue-light: rgba(55, 135, 255, 1);
