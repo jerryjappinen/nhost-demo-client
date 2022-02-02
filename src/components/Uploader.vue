@@ -56,13 +56,17 @@ export default {
     },
 
     async uploadOne (localFile) {
-      const { fileMetadata, error } = await nhost.storage.upload(localFile)
+      const { fileMetadata, error } = await nhost.storage.upload({
+        file: localFile
+      })
 
       if (error) {
         throw error
       }
 
       this.uploadedFiles.push(fileMetadata)
+
+      console.log(fileMetadata)
 
       return fileMetadata
     },
@@ -76,12 +80,12 @@ export default {
     async uploadAll () {
       if (this.localFiles && this.localFiles.length) {
         await Promise.all(this.localFiles.map((localFile) => {
-          this.uploadPromises.push(this.uploadOne(localFile))
+          return this.uploadOne(localFile)
         }))
 
         this.localFiles = []
 
-        alert('Files uploaded')
+        console.log('Files uploaded')
       }
 
       return []
