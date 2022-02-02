@@ -11,40 +11,80 @@ export default {
 
   data () {
     return {
-      files: []
+      localFiles: [],
+      uploadedFiles: [],
+      uploadPromises: []
     }
   },
 
   computed: {
 
-    fileCount () {
-      return this.files.length
+    localFileCount () {
+      return this.localFiles.length
+    }
+
+  },
+
+  watch: {
+
+    localFiles (localFiles) {
+      if (localFiles && localFiles.length) {
+        this.uploadAll()
+      }
     }
 
   },
 
   mounted () {
     if (this.$refs.fileInput) {
-      this.$refs.fileInput.addEventListener('change', this.refreshFiles)
+      this.$refs.fileInput.addEventListener('change', this.refreshLocalFiles)
     }
   },
 
   beforeUnmount () {
     if (this.$refs.fileInput) {
-      this.$refs.fileInput.removeEventListener('change', this.refreshFiles)
+      this.$refs.fileInput.removeEventListener('change', this.refreshLocalFiles)
     }
   },
 
   methods: {
 
-    refreshFiles () {
+    refreshLocalFiles () {
       if (this.$refs.fileInput) {
-        this.files = this.$refs.fileInput.files
+        this.localFiles = [...this.$refs.fileInput.files]
       }
     },
 
-    async uploadFile () {
-      await nhost.storage.upload()
+    async uploadOne (localFile) {
+      const { fileMetadata, error } = await nhost.storage.upload(localFile)
+
+      if (error) {
+        throw error
+      }
+
+      this.uploadedFiles.push(fileMetadata)
+
+      return fileMetadata
+    },
+
+    // async uploadOne (localFile) {
+    //   const remoteFile = await nhost.storage.upload(localFile)
+    //   this.uploadedFiles.push(remoteFile)
+    //   return remoteFile
+    // },
+
+    async uploadAll () {
+      if (this.localFiles && this.localFiles.length) {
+        await Promise.all(this.localFiles.map((localFile) => {
+          this.uploadPromises.push(this.uploadOne(localFile))
+        }))
+
+        this.localFiles = []
+
+        alert('Files uploaded')
+      }
+
+      return []
     }
 
   }
@@ -65,8 +105,8 @@ export default {
     >
 
     <div class="content">
-      <template v-if="fileCount">
-        {{ fileCount }} files selected
+      <template v-if="localFileCount">
+        {{ localFileCount }} files selected
       </template>
 
       <template v-else>
