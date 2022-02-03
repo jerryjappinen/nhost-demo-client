@@ -27,9 +27,11 @@ export default {
 
   watch: {
 
-    localFiles (localFiles) {
+    async localFiles (localFiles) {
       if (localFiles && localFiles.length) {
-        this.uploadAll()
+        await this.createUpload()
+
+        await this.uploadAll()
       }
     }
 
@@ -53,6 +55,30 @@ export default {
       if (this.$refs.fileInput) {
         this.localFiles = [...this.$refs.fileInput.files]
       }
+    },
+
+    async createUpload () {
+      const { data, error } = await nhost.graphql.request(`mutation {
+        insert_uploads (
+          objects: [
+            {
+              owner_user_id: "${this.$store.getters.currentUser.id}"
+            }
+          ]
+        ) {
+          returning {
+            id
+          }
+        }
+      }`)
+
+      if (error) {
+        throw error
+      }
+
+      console.log('inserted data', data)
+
+      return data.insert_uploads.returning[0].id
     },
 
     async uploadOne (localFile) {
