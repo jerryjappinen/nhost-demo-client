@@ -88,9 +88,9 @@ export default {
         throw error
       }
 
-      // this.uploadData = data
+      this.uploadData = data.uploads
 
-      console.log(data)
+      console.log(this.uploadData)
     }
 
   }
