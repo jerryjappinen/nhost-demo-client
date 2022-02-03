@@ -3,6 +3,7 @@ import Uploader from '@/components/Uploader'
 import UploadTeaser from '@/components/UploadTeaser'
 
 import formatFileSize from '@/util/formatFileSize'
+import nhost from '@/util/nhost'
 
 export default {
 
@@ -13,6 +14,8 @@ export default {
 
   data () {
     return {
+
+      uploadData: [],
 
       // Fake data
       uploads: [
@@ -57,6 +60,38 @@ export default {
     // uploads () {
     //   this.$store.getters.uploadsByAuthor
     // }
+
+  },
+
+  created () {
+    this.fetchUploads()
+  },
+
+  methods: {
+
+    async fetchUploads () {
+      const { data, error } = await nhost.graphql.request(`{
+        uploads(where: {owner_user_id: {_eq: "${this.$store.getters.currentUser.id}"}}) {
+          __typename
+          id
+          files {
+            __typename
+            id
+            name
+            mimeType
+            updatedAt
+          }
+        }
+      }`)
+
+      if (error) {
+        throw error
+      }
+
+      // this.uploadData = data
+
+      console.log(data)
+    }
 
   }
 
