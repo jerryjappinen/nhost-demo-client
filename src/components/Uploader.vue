@@ -1,7 +1,11 @@
 <script>
-import nhost from '@/util/nhost'
+import createUpload from '@/api/createUpload'
+import fetchUpload from '@/api/fetchUpload'
+import updateFileUploadId from '@/api/updateFileUploadId'
+import uploadMultipleFiles from '@/api/uploadMultipleFiles'
 
 import Card from './Card'
+
 
 export default {
 
@@ -13,7 +17,7 @@ export default {
     return {
       localFiles: [],
       uploadedFiles: [],
-      uploadPromises: []
+      isUploading: false
     }
   },
 
@@ -21,6 +25,10 @@ export default {
 
     localFileCount () {
       return this.localFiles.length
+    },
+
+    uploadedFileCount () {
+      return this.uploadedFiles.length
     }
 
   },
@@ -29,9 +37,31 @@ export default {
 
     async localFiles (localFiles) {
       if (localFiles && localFiles.length) {
-        await this.createUpload()
+        // Update component state
+        this.isUploading = true
 
-        await this.uploadAll()
+        // In this app, files are attached to objects called "uploads". Let's create before upload
+        let upload = await createUpload(this.$store.getters.currentUser.id)
+
+        // Upload all files selected by user
+        const uploadedFiles = await uploadMultipleFiles(localFiles)
+
+        // Link each uploaded file to "upload" object
+        const uploadedFilesWithUploadId = await Promise.all(
+          uploadedFiles.map(async (uploadedFile) => {
+            return updateFileUploadId(uploadedFile.id, upload.id)
+          })
+        )
+
+        // Re-fetch upload object, as it now has new file ID references
+        upload = await fetchUpload(upload.id)
+
+        // Update local component state
+        this.uploadedFiles = uploadedFilesWithUploadId
+        this.isUploading = false
+
+        // Update store, so other parts of the app can render the upload
+        this.$store.dispatch('storeUpload', upload)
       }
     }
 
@@ -55,66 +85,6 @@ export default {
       if (this.$refs.fileInput) {
         this.localFiles = [...this.$refs.fileInput.files]
       }
-    },
-
-    async createUpload () {
-      const { data, error } = await nhost.graphql.request(`mutation {
-        insert_uploads (
-          objects: [
-            {
-              owner_user_id: "${this.$store.getters.currentUser.id}"
-            }
-          ]
-        ) {
-          returning {
-            id
-          }
-        }
-      }`)
-
-      if (error) {
-        throw error
-      }
-
-      console.log('inserted data', data)
-
-      return data.insert_uploads.returning[0].id
-    },
-
-    async uploadOne (localFile) {
-      const { fileMetadata, error } = await nhost.storage.upload({
-        file: localFile
-      })
-
-      if (error) {
-        throw error
-      }
-
-      this.uploadedFiles.push(fileMetadata)
-
-      console.log(fileMetadata)
-
-      return fileMetadata
-    },
-
-    // async uploadOne (localFile) {
-    //   const remoteFile = await nhost.storage.upload(localFile)
-    //   this.uploadedFiles.push(remoteFile)
-    //   return remoteFile
-    // },
-
-    async uploadAll () {
-      if (this.localFiles && this.localFiles.length) {
-        await Promise.all(this.localFiles.map((localFile) => {
-          return this.uploadOne(localFile)
-        }))
-
-        this.localFiles = []
-
-        console.log('Files uploaded')
-      }
-
-      return []
     }
 
   }
@@ -136,7 +106,11 @@ export default {
 
     <div class="content">
       <template v-if="localFileCount">
-        {{ localFileCount }} files selected
+        {{ localFileCount }} files {{ isUploading ? 'uploading' : 'selected' }}
+      </template>
+
+      <template v-else-if="uploadedFileCount">
+        {{ uploadedFileCount }} files uploaded
       </template>
 
       <template v-else>

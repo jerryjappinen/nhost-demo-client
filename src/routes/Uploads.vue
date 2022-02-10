@@ -1,9 +1,10 @@
 <script>
+import fetchUploads from '@/api/fetchUploads'
+
 import Uploader from '@/components/Uploader'
 import UploadTeaser from '@/components/UploadTeaser'
 
 import formatFileSize from '@/util/formatFileSize'
-import nhost from '@/util/nhost'
 
 export default {
 
@@ -12,54 +13,24 @@ export default {
     UploadTeaser
   },
 
-  data () {
-    return {
-
-      uploadData: [],
-
-      // Fake data
-      uploads: [
-        {
-          id: 'fake-id-345678',
-          name: 'file-name.pdf',
-          fileSize: 987432
-        },
-        {
-          id: 'fake-id-987654',
-          name: 'another-file.doc',
-          fileSize: 15237872
-        },
-        {
-          id: 'fake-id-987654',
-          name: 'another-file.doc',
-          fileSize: 15237872
-        },
-        {
-          id: 'fake-id-987654',
-          name: 'another-file.doc',
-          fileSize: 15237872
-        }
-      ]
-
-    }
-  },
-
   computed: {
+
+    uploads () {
+      return this.$store.getters.uploads
+    },
 
     // FIXME: a view shouldn't calculate this. Can I get this from store or server?
     totalFileSize () {
       return this.uploads.reduce((totalSize, upload) => {
-        return totalSize + upload.fileSize
+        return totalSize + upload.files.reduce((file) => {
+          return file.size
+        }, 0)
       }, 0)
     },
 
     formattedTotalFileSize () {
       return formatFileSize(this.totalFileSize)
     }
-
-    // uploads () {
-    //   this.$store.getters.uploadsByAuthor
-    // }
 
   },
 
@@ -70,27 +41,11 @@ export default {
   methods: {
 
     async fetchUploads () {
-      const { data, error } = await nhost.graphql.request(`{
-        uploads(where: {owner_user_id: {_eq: "${this.$store.getters.currentUser.id}"}}) {
-          __typename
-          id
-          files {
-            __typename
-            id
-            name
-            mimeType
-            updatedAt
-          }
-        }
-      }`)
+      // Get upload data from API
+      const uploads = await fetchUploads()
 
-      if (error) {
-        throw error
-      }
-
-      this.uploadData = data.uploads
-
-      console.log(this.uploadData)
+      // Store fetched data in store, since rendered data comes from there
+      this.$store.dispatch('storeUploads', uploads)
     }
 
   }
@@ -101,7 +56,10 @@ export default {
 <template>
   <div>
     <!-- Show total file size in header -->
-    <teleport to="#header-area-controls">
+    <teleport
+      v-if="totalFileSize"
+      to="#header-area-controls"
+    >
       {{ formattedTotalFileSize }}
     </teleport>
 

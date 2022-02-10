@@ -11,7 +11,7 @@ export default {
 
   data () {
     return {
-      inputEmail: '',
+      inputEmail: 'eiskis@gmail.com',
       emailSent: false
     }
   },
@@ -80,7 +80,7 @@ export default {
     <!-- Disclaimer -->
     <p class="disclaimer">
       <a href="./">
-        secureupload.io
+        secureupload.vercel.app
       </a>
     </p>
   </div>

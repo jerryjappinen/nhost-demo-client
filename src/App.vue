@@ -46,8 +46,10 @@ export default {
       />
 
       <!-- Routed content for logged-in users only -->
-      <RouterView v-if="isLoggedIn" />
-      <LoginScreen v-else />
+      <div class="routed-content-main">
+        <RouterView v-if="isLoggedIn" />
+        <LoginScreen v-else />
+      </div>
     </div>
 
     <!-- NOTE: can be transitioned -->
@@ -55,7 +57,7 @@ export default {
       v-if="isLoggedIn"
       class="navigation"
     >
-      <MainMenu class="navigation-content" />
+      <MainMenu />
     </div>
   </div>
 </template>
@@ -66,27 +68,33 @@ export default {
 .routed-content {
   margin-left: auto;
   margin-right: auto;
-  max-width: 24em;
+  max-width: 26em;
   position: relative;
   z-index: 1;
 
-  padding: var(--line-height-em) var(--line-height-em) calc(6 * var(--line-height-em)) var(--line-height-em);
+  padding: var(--line-height-em);
 }
 
-.routed-content-header {
-  margin-bottom: var(--line-height-em);
+/* .routed-content-header {} */
+
+.routed-content-main {
+  padding-top: calc(2 * var(--line-height-em));
+  padding-bottom: calc(8 * var(--line-height-em));
 }
 
 .navigation {
   position: fixed;
   z-index: 2;
 
-  width: 100%;
-  left: 0;
-  bottom: 0;
+  width: calc(100% - 2em);
+  max-width: 26em;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1em;
 
-  box-shadow: var(--shadow-dark-2);
-  background-color: var(--dark);
+  border-radius: var(--radius-medium);
+  box-shadow: var(--shadow-dark-3);
+  background-color: var(--very-dark);
 }
 
 </style>

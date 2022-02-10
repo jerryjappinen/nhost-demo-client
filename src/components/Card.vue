@@ -23,7 +23,7 @@ export default {
 <style scoped>
 
 .card {
-  background-color: var(--dark);
+  background-color: var(--very-dark);
   border-radius: var(--radius-medium);
 }
 

@@ -21,7 +21,9 @@ export default {
 
     onLogOut () {
       this.$store.dispatch('logOut')
-    }
+    },
+
+    updateDisplayName () {}
 
   }
 
@@ -41,54 +43,73 @@ export default {
     </teleport>
 
     <!-- Avatar -->
-    <div v-if="currentUser.avatarUrl">
+    <div class="profile-details">
       <img
+        v-if="currentUser.avatarUrl"
         :src="currentUser.avatarUrl"
         :alt="currentUser.displayName || currentUser.email"
         :title="currentUser.displayName || currentUser.email"
-        class="avatar"
+        class="profile-details-avatar"
       >
+
+      <!-- Details -->
+      <div class="profile-details-main">
+        <div
+          v-if="currentUser.displayName && currentUser.displayName !== currentUser.email"
+          class="profile-details-name"
+        >
+          {{ currentUser.displayName }}
+        </div>
+
+        <div class="profile-details-email">
+          {{ currentUser.email }}
+        </div>
+      </div>
     </div>
 
-    <!-- Details -->
-    <div>
-      <h3 v-if="currentUser.displayName">
-        {{ currentUser.displayName }}
-      </h3>
+    <!-- Settings -->
+    <Card
+      :padding="true"
+      class="options"
+    >
+      <p>This would be a great place for user preferences.</p>
 
       <p>
-        {{ currentUser.email }}
+        <ClickButton
+          disabled
+          class="main-button"
+        >
+          And Buttons
+        </ClickButton>
       </p>
-    </div>
-
-    <!-- Settings -->
-    <Card :padding="true">
-      <div>
-        Default expiration
-      </div>
-
-      <div>
-        Auto delete expired files
-      </div>
-
-      <div>
-        Email notifications
-      </div>
     </Card>
-
-    <!-- Settings -->
-    <p>
-      <ClickButton disabled>
-        Set Login PIN
-      </ClickButton>
-    </p>
   </div>
 </template>
 
 <style scoped>
 
-.avatar {
-  width: 8em;
+.profile-details {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: var(--line-height-em);
+}
+
+.profile-details-avatar {
+  display: block;
+  margin-right: 2em;
+
+  width: 4em;
+  border-radius: 1000em;
+}
+
+.profile-details-name {
+  font-size: 1.667em;
+}
+
+.options {
+  text-align: center;
+  color: var(--white-translucent);
 }
 
 </style>

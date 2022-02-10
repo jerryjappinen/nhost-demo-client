@@ -74,6 +74,12 @@ export default {
   text-align: center;
 }
 
+.link:not(:first-child) {
+  box-shadow:
+    inset 0.5px 0 0 0 var(--white-translucent-very-light),
+    -0.5px 0 0 0 var(--white-translucent-very-light);
+}
+
 .link:not(.active) {
   opacity: 0.4;
 }

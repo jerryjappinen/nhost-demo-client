@@ -22,6 +22,7 @@ html {
 
   /* Greyscale */
   --black: rgba(0, 0, 0, 1);
+  --very-very-dark: rgb(3, 9, 17);
   --very-dark: rgba(14, 24, 39, 1);
   --dark: rgba(33, 50, 75, 1);
   --dark-grey: rgba(85, 99, 120, 1);
@@ -49,7 +50,7 @@ html {
   --blue-light: rgba(55, 135, 255, 1);
   --blue: rgba(0, 82, 205, 1);
   --blue-dark: rgba(6, 55, 153, 1);
-  --purple-light: rgb(128, 112, 155);
+  --purple-light: rgb(166, 115, 255);
   --purple: rgba(78, 0, 205, 1);
   --purple-dark: rgba(49, 0, 130, 1);
   --green-light: rgba(170, 240, 204, 1);

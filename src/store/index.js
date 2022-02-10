@@ -1,3 +1,6 @@
+import keyBy from 'lodash/keyBy'
+import merge from 'lodash/merge'
+import orderBy from 'lodash/orderBy'
 import { createStore } from 'vuex'
 
 import nhost from '@/util/nhost'
@@ -5,21 +8,30 @@ import nhost from '@/util/nhost'
 export default createStore({
 
   state: {
-    // Currently attempting login
+
+    // Local data
+    uploadsById: {},
+    usersById: {},
+
+    // Auth
     currentUserIsLoading: false,
-
-    // Current user
-    currentUserId: null,
-
-    // Data
-    uploads: {},
-    users: {}
+    currentUserId: null
   },
 
   getters: {
 
-    currentUser ({ currentUserId, users }) {
-      return currentUserId ? users[currentUserId] : null
+    // Local data
+
+    uploads ({ uploadsById }) {
+      return orderBy(uploadsById, 'created_at')
+    },
+
+
+
+    // Auth
+
+    currentUser ({ currentUserId, usersById }) {
+      return currentUserId ? usersById[currentUserId] : null
     },
 
     isLoggedIn (state, { currentUser }) {
@@ -30,6 +42,17 @@ export default createStore({
 
   mutations: {
 
+    // Local data
+
+    // Overrides any existing data field-by-field
+    storeUploadsById (state, uploads) {
+      state.uploadsById = merge({}, state.uploadsById, keyBy(uploads, 'id'))
+    },
+
+
+
+    // Auth
+
     setCurrentUserIsLoading (state, isLoading) {
       state.currentUserIsLoading = !!isLoading
     },
@@ -39,12 +62,26 @@ export default createStore({
     },
 
     storeUser (state, user) {
-      state.users[user.id] = user
+      state.usersById[user.id] = merge({}, state.usersById[user.id] || {}, user)
     }
 
   },
 
   actions: {
+
+    // Local data
+
+    storeUpload ({ dispatch }, upload) {
+      dispatch('storeUploads', [upload])
+    },
+
+    storeUploads ({ commit }, uploads) {
+      commit('storeUploadsById', uploads)
+    },
+
+
+
+    // Auth
 
     async logOut ({ commit }) {
       await nhost.auth.signOut()
