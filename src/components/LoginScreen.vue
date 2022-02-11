@@ -41,7 +41,7 @@ export default {
 <template>
   <div>
     <img
-      src="@/svg/logo.svg"
+      src="../svg/logo.svg"
       class="logo"
     >
 
