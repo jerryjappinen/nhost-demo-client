@@ -1,5 +1,6 @@
 import nhost from '@/util/nhost'
 
+// Get an individual object by its ID
 export default async (uploadId) => {
   const { data, error } = await nhost.graphql.request(`query {
     uploads (
@@ -38,6 +39,7 @@ export default async (uploadId) => {
     throw error
   }
 
+  // eslint-disable-next-line no-console
   console.log('Fetched upload object', data)
 
   return data.uploads[0]

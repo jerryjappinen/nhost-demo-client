@@ -1,8 +1,21 @@
 <script>
-import formatFileSize from '@/util/formatFileSize'
+import upperFirst from 'lodash/upperFirst'
+
+import ClickButton from '@/components/ClickButton'
+
+import deleteFile from '@/api/deleteFile'
+import deleteUpload from '@/api/deleteUpload'
+
 import formatRelativeTime from '@/util/formatRelativeTime'
 
+import FileTeaser from './FileTeaser'
+
 export default {
+
+  components: {
+    ClickButton,
+    FileTeaser
+  },
 
   props: {
     upload: {
@@ -11,46 +24,62 @@ export default {
     }
   },
 
+  computed: {
+
+    timestampText () {
+      return upperFirst(formatRelativeTime(new Date(this.upload.created_at)))
+    }
+
+  },
+
   methods: {
-    formatFileSize,
-    formatRelativeTime
+    formatRelativeTime,
+
+    async deleteUpload () {
+      // Remove each file first
+      await Promise.all(
+        this.upload.files.map((file) => {
+          return deleteFile(file.id)
+        })
+      )
+
+      // Remove upload object itself
+      await deleteUpload(this.upload.id)
+
+      // Remove local data from store
+      this.$store.commit('unstoreUpload', this.upload.id)
+    }
   }
 
 }
 </script>
 
 <template>
-  <router-link
-    :to="{
-      name: 'upload',
-      params: {
-        uploadId: upload.id
-      }
-    }"
-    class="teaser"
-  >
-    <div
+  <div class="teaser">
+    <!-- List each file in the upload -->
+    <FileTeaser
       v-for="file in upload.files"
       :key="file.id"
-      class="file"
-    >
-      <div class="file-main">
-        <div>{{ file.name }}</div>
-        <div>{{ formatFileSize(file.size) }}</div>
+      :file="file"
+    />
+
+    <!-- Display upload data -->
+    <div class="details">
+      <div
+        v-if="upload.created_at"
+        class="date"
+      >
+        {{ timestampText }}
       </div>
 
-      <div class="file-secondary">
-        24 Mb
-      </div>
+      <ClickButton
+        color="link"
+        @click="deleteUpload"
+      >
+        Remove
+      </ClickButton>
     </div>
-
-    <div
-      v-if="upload.created_at"
-      class="date"
-    >
-      {{ formatRelativeTime(new Date(upload.created_at)) }}
-    </div>
-  </router-link>
+  </div>
 </template>
 
 <style scoped>
@@ -62,29 +91,17 @@ export default {
   display: block;
 }
 
-.date {
-  text-align: right;
-  font-size: var(--body-small);
-  opacity: 0.4;
-}
-
-
-
-/* Each file */
-
-.file {
+.details {
   display: flex;
   align-items: center;
 }
 
-.file-main {
+.date {
   flex-grow: 1;
   flex-shrink: 1;
-}
 
-.file-secondary {
-  flex-grow: 0;
-  flex-shrink: 0;
+  font-size: var(--body-small);
+  color: var(--grey)
 }
 
 </style>

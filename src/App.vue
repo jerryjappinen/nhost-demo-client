@@ -15,22 +15,23 @@ export default {
 
   computed: {
 
-    isLoggedIn () {
-      return this.$store.getters.isLoggedIn
+    isSignedIn () {
+      return this.$store.getters.isSignedIn
     }
 
   },
 
   mounted () {
-    // Hook up to login provider
+    // The callback will run when nhost-js has successfully or unsuccessfully finished with signing the user in or out
     nhost.auth.onAuthStateChanged(() => {
-      this.$store.dispatch('refreshLoginStatus')
+      this.$store.dispatch('refreshAuthStatus')
     })
 
+    // FIXME: bug in nhost-js forces us to manually update logged-in state
+    // https://github.com/nhost/nhost-js/issues/27
     setTimeout(() => {
-      console.log('Timeout')
-      this.$store.dispatch('refreshLoginStatus')
-    }, 5 * 1000)
+      this.$store.dispatch('refreshAuthStatus')
+    }, 3 * 1000)
   }
 
 }
@@ -41,20 +42,20 @@ export default {
     <div class="routed-content">
       <!-- NOTE: can be transitioned -->
       <HeaderArea
-        v-if="isLoggedIn"
+        v-if="isSignedIn"
         class="routed-content-header"
       />
 
       <!-- Routed content for logged-in users only -->
       <div class="routed-content-main">
-        <RouterView v-if="isLoggedIn" />
+        <RouterView v-if="isSignedIn" />
         <LoginScreen v-else />
       </div>
     </div>
 
     <!-- NOTE: can be transitioned -->
     <div
-      v-if="isLoggedIn"
+      v-if="isSignedIn"
       class="navigation"
     >
       <MainMenu />
@@ -93,8 +94,9 @@ export default {
   bottom: 1em;
 
   border-radius: var(--radius-medium);
-  box-shadow: var(--shadow-dark-3);
   background-color: var(--very-dark);
+
+  box-shadow: var(--shadow-dark-3), 0 16px 16px 4px var(--very-very-dark);
 }
 
 </style>

@@ -1,11 +1,5 @@
 <script>
-import Logo from '@/components/Logo'
-
 export default {
-
-  components: {
-    Logo
-  },
 
   props: {
     padding: {
@@ -24,7 +18,10 @@ export default {
         name: 'uploads'
       }"
     >
-      <Logo class="logo" />
+      <img
+        src="@/svg/logo.svg"
+        class="logo"
+      >
     </router-link>
 
     <div class="spacer" />
@@ -46,7 +43,7 @@ export default {
 }
 
 .logo {
-  height: calc((4/3) * var(--line-height-em));
+  height: 2em;
 }
 
 </style>

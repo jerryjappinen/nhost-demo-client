@@ -2,7 +2,6 @@ export default (fileSizeInBytes) => {
   const kb = fileSizeInBytes / 1024
   const mb = kb / 1024
   const gb = mb / 1024
-  // const tb = gb / 1024
 
   if (fileSizeInBytes < 1) {
     return '0 kB'

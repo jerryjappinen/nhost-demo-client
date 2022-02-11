@@ -1,6 +1,7 @@
 import keyBy from 'lodash/keyBy'
 import merge from 'lodash/merge'
 import orderBy from 'lodash/orderBy'
+
 import { createStore } from 'vuex'
 
 import nhost from '@/util/nhost'
@@ -9,21 +10,21 @@ export default createStore({
 
   state: {
 
-    // Local data
+    // Data from Nhost goes here
     uploadsById: {},
     usersById: {},
 
-    // Auth
-    currentUserIsLoading: false,
+    // Auth state from Nhost goes here
+    currentUserIsLoading: true,
     currentUserId: null
   },
 
   getters: {
 
-    // Local data
+    // Data
 
     uploads ({ uploadsById }) {
-      return orderBy(uploadsById, 'created_at')
+      return orderBy(uploadsById, 'created_at', 'desc')
     },
 
 
@@ -34,7 +35,7 @@ export default createStore({
       return currentUserId ? usersById[currentUserId] : null
     },
 
-    isLoggedIn (state, { currentUser }) {
+    isSignedIn (state, { currentUser }) {
       return !!currentUser
     }
 
@@ -42,11 +43,27 @@ export default createStore({
 
   mutations: {
 
-    // Local data
+    // Data
 
-    // Overrides any existing data field-by-field
-    storeUploadsById (state, uploads) {
+    // Overrides any existing uploads field-by-field
+    storeUploads (state, uploads) {
       state.uploadsById = merge({}, state.uploadsById, keyBy(uploads, 'id'))
+    },
+
+    unstoreUpload (state, uploadId) {
+      if (state.uploadsById[uploadId]) {
+        delete state.uploadsById[uploadId]
+      }
+    },
+
+    storeUser (state, user) {
+      state.usersById[user.id] = merge({}, state.usersById[user.id] || {}, user)
+    },
+
+    unstoreUser (state, userId) {
+      if (state.usersById[userId]) {
+        delete state.usersById[userId]
+      }
     },
 
 
@@ -59,38 +76,31 @@ export default createStore({
 
     setCurrentUserId (state, userId) {
       state.currentUserId = userId
-    },
-
-    storeUser (state, user) {
-      state.usersById[user.id] = merge({}, state.usersById[user.id] || {}, user)
     }
 
   },
 
   actions: {
 
-    // Local data
-
-    storeUpload ({ dispatch }, upload) {
-      dispatch('storeUploads', [upload])
-    },
-
-    storeUploads ({ commit }, uploads) {
-      commit('storeUploadsById', uploads)
-    },
-
 
 
     // Auth
+    // This app uses passwordless login
+    // For other login methods, see https://docs.nhost.io/platform/authentication
 
-    async logOut ({ commit }) {
-      await nhost.auth.signOut()
+    // This runs when user presses the login button
+    async sendLoginEmail (state, email) {
+      await nhost.auth.signIn({
+        email
+      })
     },
 
-    async refreshLoginStatus ({ commit, state }) {
+    // This runs every time the app starts
+    async refreshAuthStatus ({ commit, state }) {
       const { isAuthenticated, isLoading } = nhost.auth.getAuthenticationStatus()
 
-      console.log('refreshLoginStatus', isAuthenticated, isLoading)
+      // eslint-disable-next-line no-console
+      console.log('refreshAuthStatus', isAuthenticated, isLoading)
 
       commit('setCurrentUserIsLoading', isLoading)
 
@@ -106,10 +116,9 @@ export default createStore({
       }
     },
 
-    async sendLoginEmail ({ commit }, email) {
-      await nhost.auth.signIn({
-        email
-      })
+    // This ends the user's session
+    async signOut () {
+      await nhost.auth.signOut()
     }
 
   }

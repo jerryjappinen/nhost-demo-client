@@ -81,7 +81,7 @@ export default {
 }
 
 .link:not(.active) {
-  opacity: 0.4;
+  color: var(--grey);
 }
 
 </style>

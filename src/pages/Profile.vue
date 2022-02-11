@@ -19,11 +19,10 @@ export default {
 
   methods: {
 
-    onLogOut () {
-      this.$store.dispatch('logOut')
-    },
-
-    updateDisplayName () {}
+    // Calls the signOut routine from store.js
+    onSignOut () {
+      this.$store.dispatch('signOut')
+    }
 
   }
 
@@ -36,24 +35,33 @@ export default {
     <teleport to="#header-area-controls">
       <ClickButton
         color="link"
-        @click="onLogOut"
+        @click="onSignOut"
       >
-        Log out
+        Sign out
       </ClickButton>
     </teleport>
 
     <!-- Avatar -->
     <div class="profile-details">
-      <img
-        v-if="currentUser.avatarUrl"
-        :src="currentUser.avatarUrl"
-        :alt="currentUser.displayName || currentUser.email"
-        :title="currentUser.displayName || currentUser.email"
-        class="profile-details-avatar"
-      >
+      <div class="profile-details-avatar-container">
+        <img
+          v-if="currentUser.avatarUrl"
+          :src="currentUser.avatarUrl"
+          :alt="currentUser.displayName || currentUser.email"
+          :title="currentUser.displayName || currentUser.email"
+          class="profile-details-avatar"
+        >
+
+        <img
+          v-else
+          src="@/svg/user.svg"
+          class="profile-details-icon"
+        >
+      </div>
 
       <!-- Details -->
       <div class="profile-details-main">
+        <!-- displayName defaults to email with passwordless sign-up -->
         <div
           v-if="currentUser.displayName && currentUser.displayName !== currentUser.email"
           class="profile-details-name"
@@ -95,12 +103,34 @@ export default {
   margin-bottom: var(--line-height-em);
 }
 
-.profile-details-avatar {
-  display: block;
-  margin-right: 2em;
+.profile-details-avatar-container {
+  position: relative;
+  overflow: hidden;
 
   width: 4em;
+  height: 4em;
+  margin-right: var(--line-height-em);
+
   border-radius: 1000em;
+  background-color: var(--very-dark);
+}
+
+.profile-details-avatar {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  object-fit: cover;
+}
+
+.profile-details-icon {
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .profile-details-name {
@@ -109,7 +139,7 @@ export default {
 
 .options {
   text-align: center;
-  color: var(--white-translucent);
+  color: var(--grey);
 }
 
 </style>

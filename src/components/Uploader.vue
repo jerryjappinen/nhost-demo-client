@@ -49,6 +49,7 @@ export default {
         // Link each uploaded file to "upload" object
         const uploadedFilesWithUploadId = await Promise.all(
           uploadedFiles.map(async (uploadedFile) => {
+            console.log(uploadedFile.id, upload.id)
             return updateFileUploadId(uploadedFile.id, upload.id)
           })
         )
@@ -61,7 +62,7 @@ export default {
         this.isUploading = false
 
         // Update store, so other parts of the app can render the upload
-        this.$store.dispatch('storeUpload', upload)
+        this.$store.commit('storeUploads', [upload])
       }
     }
 
@@ -95,27 +96,35 @@ export default {
 <template>
   <Card
     :padding="true"
+    :class="{
+      disabled: isUploading
+    }"
     class="card"
   >
     <input
       ref="fileInput"
       type="file"
       multiple
+      :disabled="isUploading"
+      accept="image/png, image/jpeg, image/webp"
       class="input"
     >
 
     <div class="content">
       <template v-if="localFileCount">
-        {{ localFileCount }} files {{ isUploading ? 'uploading' : 'selected' }}
+        {{ localFileCount }} {{ isUploading ? 'uploading' : 'selected' }}
       </template>
 
       <template v-else-if="uploadedFileCount">
-        {{ uploadedFileCount }} files uploaded
+        {{ uploadedFileCount }} images uploaded
       </template>
 
-      <template v-else>
-        Choose files to upload
-      </template>
+      <span
+        v-else
+        class="link"
+      >
+        Pick images to upload
+      </span>
     </div>
   </Card>
 </template>
@@ -124,6 +133,9 @@ export default {
 
 .card {
   position: relative;
+}
+
+.card:not(.disabled) {
   cursor: pointer;
 }
 
@@ -143,6 +155,10 @@ export default {
   z-index: 1;
   text-align: center;
   pointer-events: none;
+}
+
+.link {
+  color: var(--purple-light);
 }
 
 </style>

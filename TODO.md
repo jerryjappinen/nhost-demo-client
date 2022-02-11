@@ -1,0 +1,22 @@
+## TODO
+
+- [ ] Test with user
+- [ ] Subscriptions
+- [ ] Team permissions
+- [ ] Use image transformations on image uploads
+  - Do they work on presigned URLs?
+  - Do they work on regular URLs when using permissions?
+- [x] Display files
+- [x] Document server-side changes
+- [x] Presigned URLs
+- [x] Limit uploading to images
+- [x] Match dev server to Nhost default
+- [x] Add walkthrough in Readme
+- [x] Add deletion
+- [x] Add comments
+- [x] Display profile image placeholder
+- [x] Query data
+- [x] Signup and login
+- [x] Logout
+- [x] Upload files
+- [x] Update data

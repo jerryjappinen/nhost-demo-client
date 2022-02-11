@@ -1,5 +1,6 @@
 import nhost from '@/util/nhost'
 
+// Creates a new `upload` object
 export default async (ownerUserId) => {
   const { data, error } = await nhost.graphql.request(`mutation {
     insert_uploads (
@@ -30,6 +31,7 @@ export default async (ownerUserId) => {
     throw error
   }
 
+  // eslint-disable-next-line no-console
   console.log('Inserted upload object', data)
 
   return data.insert_uploads.returning[0]

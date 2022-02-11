@@ -11,7 +11,7 @@ export default {
 
   data () {
     return {
-      inputEmail: 'eiskis@gmail.com',
+      inputEmail: '',
       emailSent: false
     }
   },
@@ -40,47 +40,57 @@ export default {
 
 <template>
   <div>
-    <!-- Login options -->
-    <div>
-      <Card
-        :padding="true"
-        class="card"
-      >
+    <img
+      src="@/svg/logo.svg"
+      class="logo"
+    >
+
+    <Card
+      :padding="true"
+      class="card"
+    >
+      <h3 class="headline">
+        <span
+          v-if="emailSent"
+          class="headline-info"
+        >
+          We sent a login link to your email
+        </span>
+
+        <template v-else-if="isLoading">
+          ...
+        </template>
+
+        <template v-else>
+          Please log in to continue
+        </template>
+      </h3>
+
+      <form @submit.prevent="onSubmit">
         <p>
-          {{
-            emailSent
-              ? 'We sent a login link to your email'
-              : isLoading
-                ? '...'
-                : 'Please log in to continue'
-          }}
+          <input
+            v-model="inputEmail"
+            placeholder="Enter email"
+            :disabled="emailSent"
+            type="email"
+            name="email"
+            class="input"
+          >
         </p>
 
-        <form @submit.prevent="onSubmit">
-          <p>
-            <input
-              v-model="inputEmail"
-              placeholder="Email"
-              :disabled="emailSent"
-              type="email"
-              class="input"
-            >
-          </p>
-
-          <ClickButton
-            :disabled="!!(isLoading || emailSent)"
-            type="submit"
-          >
-            Send Login Link
-          </ClickButton>
-        </form>
-      </Card>
-    </div>
+        <ClickButton
+          :disabled="!!(isLoading || emailSent)"
+          type="submit"
+        >
+          Send Login Link
+        </ClickButton>
+      </form>
+    </Card>
 
     <!-- Disclaimer -->
     <p class="disclaimer">
-      <a href="./">
-        secureupload.vercel.app
+      <a href="/">
+        nhost-demo-client.vercel.app
       </a>
     </p>
   </div>
@@ -88,15 +98,45 @@ export default {
 
 <style scoped>
 
-.input {
-  padding: calc(var(--line-height-tight-em) / 2) var(--line-height-tight-em);
-  border-radius: var(--radius-small);
-  background-color: var(--white-translucent-very-light);
+.logo {
+  display: block;
+  height: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: var(--line-height-em);
 }
 
 .card,
 .disclaimer {
   text-align: center;
+}
+
+.headline {
+  margin-top: 0;
+}
+
+.headline-info {
+  color: var(--yellow);
+}
+
+.input {
+  padding: calc(var(--line-height-tight-em) / 2) var(--line-height-tight-em);
+  border-radius: var(--radius-small);
+  background-color: var(--white-translucent-very-very-light);
+  box-shadow: inset 0 0 1px 0 var(--white-translucent-very-very-light);
+}
+
+.input:focus,
+.input:hover {
+  box-shadow: inset 0 0 2px 1px var(--white-translucent-very-light);
+}
+
+.input::placeholder {
+  color: var(--grey);
+}
+
+.disclaimer {
+  color: var(--dark-grey);
 }
 
 </style>

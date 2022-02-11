@@ -45,7 +45,7 @@ export default {
       const uploads = await fetchUploads()
 
       // Store fetched data in store, since rendered data comes from there
-      this.$store.dispatch('storeUploads', uploads)
+      this.$store.commit('storeUploads', uploads)
     }
 
   }

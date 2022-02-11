@@ -1,8 +1,8 @@
 import nhost from '@/util/nhost'
 
-// Here we get all uplodas that the API returns
-// We don't worry about filtering, since permissions won't allow us to query any data that we don't want
-// We could also query this: uploads(where: {owner_user_id: {_eq: "${currentUserId}"}}) {
+// Get all uploads that the API returns
+// We don't worry about filtering, since permissions won't allow us to get any data that we don't want
+// We could also do this: uploads(where: {owner_user_id: {_eq: "${currentUserId}"}}) {
 export default async () => {
   const { data, error } = await nhost.graphql.request(`{
     uploads {
@@ -35,6 +35,7 @@ export default async () => {
     throw error
   }
 
+  // eslint-disable-next-line no-console
   console.log('Fetched upload objects', data.uploads)
 
   return data.uploads
