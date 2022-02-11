@@ -20,6 +20,7 @@ module.exports = {
 
     // Use kebab-case in component templates
     'vue/component-name-in-template-casing': ['error', 'PascalCase'],
+    'vue/multi-word-component-names': ['off'],
 
     'no-var': ['error'],
     'prefer-const': ['error'],
