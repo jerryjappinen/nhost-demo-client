@@ -49,7 +49,6 @@ export default {
         // Link each uploaded file to "upload" object
         const uploadedFilesWithUploadId = await Promise.all(
           uploadedFiles.map(async (uploadedFile) => {
-            console.log(uploadedFile.id, upload.id)
             return updateFileUploadId(uploadedFile.id, upload.id)
           })
         )
