@@ -54,7 +54,7 @@ export default {
 
         <img
           v-else
-          src="@/svg/user.svg"
+          src="../svg/user.svg"
           class="profile-details-icon"
         >
       </div>

@@ -13,8 +13,7 @@
     "test": "vue-cli-service test:unit",
     "test:watch": "npm run test -- --watch",
     "lint": "vue-cli-service lint",
-    "lint:fix": "npm run lint --  --fix",
-    "vue": "vue add svg"
+    "lint:fix": "npm run lint --  --fix"
   },
   "dependencies": {
     "@nhost/nhost-js": "^0.3.6",

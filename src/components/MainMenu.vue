@@ -1,7 +1,4 @@
 <script>
-// import UserIcon from '@/svg/User.svg'
-// import TrayIcon from '@/svg/Tray.svg'
-
 export default {
 
   data () {
@@ -9,7 +6,6 @@ export default {
       links: [
 
         {
-          // icon: TrayIcon,
           label: 'Uploads',
           to: {
             name: 'uploads'
@@ -17,7 +13,6 @@ export default {
         },
 
         {
-          // icon: UserIcon,
           label: 'Profile',
           to: {
             name: 'profile'
@@ -42,7 +37,7 @@ export default {
 <template>
   <div class="menu">
     <router-link
-      v-for="{ icon, label, to } in links"
+      v-for="{ label, to } in links"
       :key="label"
       :to="to"
       :class="{
@@ -50,10 +45,6 @@ export default {
       }"
       class="link"
     >
-      <component
-        :is="icon"
-        v-if="icon"
-      />
       {{ label }}
     </router-link>
   </div>
