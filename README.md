@@ -62,12 +62,17 @@ Then, define relationships:
     - Add a column `upload_id` (UUID)
     - Add a *foreign key* to `public.uploads` (`upload_id` → `id`)
   - Under "Relationships", add the suggested *Object relationship* to `uploads`
+  - Also go and add the reverse relationships in:
+    - `uploads` (array)
+    - `users` (array)
 - From `uploads` to `users`
   - Go to `uploads` table
   - Under "Modify"
     - You should see the column `owner_user_id` (UUID)
     - Add a *foreign key* to `auth.users` (`owner_user_id` → `id`)
     - Under "Relationships", add the suggested *Object relationship* to `users`
+  - Also go and add the reverse relationships in:
+    - `users` (array)
 
 ### 3. Permissions
 
@@ -81,8 +86,8 @@ In the `users` table:
 
 In `uploads` table:
 
-- I want to create new `upload` objects. Add `insert` permission:
-  - Row select permissions: "Without any checks"
+- I want to create new `upload` objects, if I'm authenticated and my user exists. Add `insert` permission:
+  - Row select permissions: `{"_exists":{"_table":{"schema":"auth","name":"users"},"_where":{"id":{"_eq":"X-Hasura-User-Id"}}}}`
   - Column select permissions: "Toggle all"
 - I want to read `uploads` whose owner is me. Add `select` permission
   - Row select permissions: `{"owner_user_id":{"_eq":"X-Hasura-User-Id"}}`
@@ -95,8 +100,8 @@ In `uploads` table:
 
 In `files` table:
 
-- I want to upload files. Add `insert` permission:
-  - Row select permissions: "Without any checks"
+- I want to upload files if I have an account and am logged in. Add `insert` permission:
+  - Row select permissions: `{"_exists":{"_table":{"schema":"auth","name":"users"},"_where":{"id":{"_eq":"X-Hasura-User-Id"}}}}`
   - Column select permissions: "Toggle all"
 - I want to read files that are in `uploads` whose owner is me. Add `select` permission:
   - Row select permissions: `{"upload":{"owner_user_id":{"_eq":"X-Hasura-User-Id"}}}`

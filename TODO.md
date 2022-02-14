@@ -3,6 +3,7 @@
 - [ ] Test with user
 - [ ] Subscriptions
 - [ ] Team permissions
+- [ ] Move backend to repo
 - [ ] Use image transformations on image uploads
   - Do they work on presigned URLs?
   - Do they work on regular URLs when using permissions?
