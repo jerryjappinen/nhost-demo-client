@@ -2,11 +2,19 @@
 import Card from '@/components/Card'
 import ClickButton from '@/components/ClickButton'
 
+import { nhostBackendUrl } from '@/config'
+
 export default {
 
   components: {
     Card,
     ClickButton
+  },
+
+  data () {
+    return {
+      nhostBackendUrl
+    }
   },
 
   computed: {
@@ -80,14 +88,18 @@ export default {
       :padding="true"
       class="options"
     >
-      <p>This would be a great place for user preferences.</p>
+      <p>
+        Nhost backend running at
+      </p>
 
       <p>
         <ClickButton
-          disabled
+          :href="nhostBackendUrl"
+          target="_blank"
+          color="link"
           class="main-button"
         >
-          And Buttons
+          {{ nhostBackendUrl }}
         </ClickButton>
       </p>
     </Card>
