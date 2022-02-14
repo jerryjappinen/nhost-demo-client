@@ -49,7 +49,7 @@ Authentication methods can be found under **Users** → **Login settings**.
 
 ### 2. Define Schema
 
-First, add a new table called `uploads` with the following fields:
+First, add a new table called `uploads` into the `public` schema. Add the following fields:
 
 - Frequently used columns: `id` (UUID) and `created_at` (timestamp)
 - A new field called `owner_user_id` (UUID)
@@ -58,12 +58,16 @@ Then, define relationships:
 
 - From `files` to `uploads`
   - Go to `files` table
-  - Under "Modify", add the column `upload_id` (UUID, nullable)
+  - Under "Modify"
+    - Add a column `upload_id` (UUID)
+    - Add a *foreign key* to `public.uploads` (`upload_id` → `id`)
   - Under "Relationships", add the suggested *Object relationship* to `uploads`
 - From `uploads` to `users`
   - Go to `uploads` table
-  - Under "Modify", you should see the column `owner_user_id` (UUID, nullable)
-  - Under "Relationships", add the suggested *Object relationship* to `users`
+  - Under "Modify"
+    - You should see the column `owner_user_id` (UUID)
+    - Add a *foreign key* to `auth.users` (`owner_user_id` → `id`)
+    - Under "Relationships", add the suggested *Object relationship* to `users`
 
 ### 3. Permissions
 
