@@ -80,7 +80,7 @@ export default {
 
 .routed-content-main {
   padding-top: calc(2 * var(--line-height-em));
-  padding-bottom: calc(8 * var(--line-height-em));
+  padding-bottom: calc(4 * var(--line-height-em));
 }
 
 .navigation {
