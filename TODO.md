@@ -1,14 +1,11 @@
 ## TODO
 
-- [ ] Test with user
 - [ ] Subscriptions
 - [ ] Team permissions
 - [ ] Remove edits to system tables
   - [ ] Create join tables that map files to uploads
 - [ ] Move backend to repo
-- [ ] Use image transformations on image uploads
-  - Do they work on presigned URLs?
-  - Do they work on regular URLs when using permissions?
+- [x] Use image transformations on image uploads
 - [x] Display files
 - [x] Document server-side changes
 - [x] Presigned URLs

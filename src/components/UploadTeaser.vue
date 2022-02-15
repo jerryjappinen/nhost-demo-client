@@ -1,6 +1,4 @@
 <script>
-import upperFirst from 'lodash/upperFirst'
-
 import ClickButton from '@/components/ClickButton'
 
 import deleteFile from '@/api/deleteFile'
@@ -27,7 +25,7 @@ export default {
   computed: {
 
     timestampText () {
-      return upperFirst(formatRelativeTime(new Date(this.upload.created_at)))
+      return formatRelativeTime(new Date(this.upload.created_at))
     }
 
   },
@@ -36,18 +34,18 @@ export default {
     formatRelativeTime,
 
     async deleteUpload () {
-      // Remove each file first
+      // Optimistically remove local data from store immediately
+      this.$store.commit('unstoreUpload', this.upload.id)
+
+      // Remove each file in the backend
       await Promise.all(
         this.upload.files.map((file) => {
           return deleteFile(file.id)
         })
       )
 
-      // Remove upload object itself
-      await deleteUpload(this.upload.id)
-
-      // Remove local data from store
-      this.$store.commit('unstoreUpload', this.upload.id)
+      // Remove upload object itself in the backend
+      return deleteUpload(this.upload.id)
     }
   }
 
@@ -107,6 +105,10 @@ export default {
 
   font-size: var(--body-small);
   color: var(--grey)
+}
+
+.date:first-letter {
+  text-transform: capitalize;
 }
 
 </style>

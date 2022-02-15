@@ -58,10 +58,16 @@ export default {
 
         // Update local component state
         this.uploadedFiles = uploadedFilesWithUploadId
+        this.localFiles = []
         this.isUploading = false
 
         // Update store, so other parts of the app can render the upload
         this.$store.commit('storeUploads', [upload])
+
+        // Clear input to let user upload again
+        setTimeout(() => {
+          this.uploadedFiles = []
+        }, 2000)
       }
     }
 
@@ -96,7 +102,7 @@ export default {
   <Card
     :padding="true"
     :class="{
-      disabled: isUploading
+      disabled: isUploading || localFileCount || uploadedFileCount
     }"
     class="card"
   >
@@ -104,14 +110,14 @@ export default {
       ref="fileInput"
       type="file"
       multiple
-      :disabled="isUploading"
+      :disabled="isUploading || localFileCount || uploadedFileCount"
       accept="image/png, image/jpeg, image/webp"
       class="input"
     >
 
     <div class="content">
       <template v-if="localFileCount">
-        {{ localFileCount }} {{ isUploading ? 'uploading' : 'selected' }}
+        {{ localFileCount }} {{ isUploading ? 'uploading...' : 'selected' }}
       </template>
 
       <template v-else-if="uploadedFileCount">
