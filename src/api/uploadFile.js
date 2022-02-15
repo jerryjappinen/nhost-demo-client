@@ -2,6 +2,9 @@ import nhost from '@/util/nhost'
 
 // Uploads file to Nhost
 export default async (localFileObject) => {
+  // eslint-disable-next-line no-console
+  console.log('Uploading file', localFileObject)
+
   const { fileMetadata, error } = await nhost.storage.upload({
     file: localFileObject
   })
