@@ -12,8 +12,7 @@
     "build": "vue-cli-service build",
     "test": "vue-cli-service test:unit",
     "test:watch": "npm run test -- --watch",
-    "lint": "vue-cli-service lint",
-    "lint:fix": "npm run lint --  --fix"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "@nhost/nhost-js": "^0.3.7",
