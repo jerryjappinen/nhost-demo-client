@@ -16,7 +16,7 @@
     "lint:fix": "npm run lint --  --fix"
   },
   "dependencies": {
-    "@nhost/nhost-js": "^0.3.6",
+    "@nhost/nhost-js": "^0.3.7",
     "core-js": "^3.21.0",
     "date-fns": "^2.28.0",
     "normalize.css": "^8.0.1",
