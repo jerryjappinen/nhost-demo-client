@@ -49,6 +49,10 @@ export default {
 
     fileSizeText () {
       return formatFileSize(this.file.size)
+    },
+
+    type () {
+      return this.file.mimeType.substr(this.file.mimeType.indexOf('/') + 1).toUpperCase()
     }
 
   }
@@ -72,17 +76,12 @@ export default {
     </div>
 
     <div class="main">
-      <div class="name">
-        {{ file.name }}
-      </div>
+      {{ file.name }}
 
-      <div class="type">
-        {{ file.mimeType }}
+      <div class="details">
+        {{ type }}
+        {{ fileSizeText }}
       </div>
-    </div>
-
-    <div class="secondary">
-      {{ fileSizeText }}
     </div>
   </a>
 </template>
@@ -108,8 +107,7 @@ export default {
   height: 100%;
 }
 
-.main,
-.name {
+.main {
   flex-grow: 1;
   flex-shrink: 1;
   margin-right: 1em;
@@ -119,14 +117,12 @@ export default {
   white-space: nowrap;
 }
 
-.thumbnail,
-.secondary {
+.thumbnail {
   flex-grow: 0;
   flex-shrink: 0;
 }
 
-.type,
-.secondary {
+.details {
   color: var(--grey)
 }
 
