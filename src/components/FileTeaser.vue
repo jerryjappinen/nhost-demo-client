@@ -11,9 +11,9 @@ export default {
       required: true
     },
 
-    width: {
+    thumbnailWidth: {
       type: Number,
-      default: 80
+      default: 64 * 2 // High-resolution by default
     }
 
   },
@@ -27,63 +27,28 @@ export default {
 
   computed: {
 
-    // NOTE: Our backend does not have public select permissions for files
-    privateUrl () {
+    fileUrl () {
       return nhost.storage.getUrl({
         fileId: this.file.id
       })
     },
 
+    // Compose a small thumbnail: set width and height to crop the image
     previewUrl () {
-      return `${this.privateUrl}?w=${this.width}`
+      const imageTransformations = {
+        w: this.thumbnailWidth,
+        h: this.thumbnailWidth
+      }
+
+      const urlParams = Object.keys(imageTransformations).map((key) => {
+        return key + '=' + imageTransformations[key]
+      })
+
+      return `${this.fileUrl}?${urlParams.join('&')}`
     },
 
     fileSizeText () {
       return formatFileSize(this.file.size)
-    }
-
-  },
-
-  async created () {
-    await this.getPublicUrl()
-  },
-
-  beforeUnmount () {
-    this.cancelTimeout()
-  },
-
-  methods: {
-
-    cancelTimeout () {
-      if (this.timeout) {
-        clearTimeout(this.timeout)
-      }
-    },
-
-    startTimeout (duration) {
-      if (this.timeout) {
-        this.cancelTimeout()
-      }
-
-      setTimeout(this.getPublicUrl, duration)
-    },
-
-    // Why this?
-    async getPublicUrl () {
-      const { presignedUrl, error } = await nhost.storage.getPresignedUrl({
-        fileId: this.file.id
-      })
-
-      if (error) {
-        throw error
-      }
-
-      // Nhost returns expiration from current moment in seconds
-      // We want to renew the URL before it expires
-      // Renewing requires networking, so we shave off a couple of seconds to be safe
-      this.startTimeout((presignedUrl.expiration - 2) * 1000)
-
-      this.publicUrl = presignedUrl.url
     }
 
   }
@@ -93,12 +58,13 @@ export default {
 
 <template>
   <a
-    :href="publicUrl"
+    :href="fileUrl"
     target="_blank"
     class="container"
   >
     <div class="thumbnail">
       <img
+        v-if="previewUrl"
         :src="previewUrl"
         :alt="file.name"
         :title="file.name"
@@ -106,7 +72,13 @@ export default {
     </div>
 
     <div class="main">
-      {{ file.name }}
+      <div class="name">
+        {{ file.name }}
+      </div>
+
+      <div class="type">
+        {{ file.mimeType }}
+      </div>
     </div>
 
     <div class="secondary">
@@ -122,9 +94,40 @@ export default {
   align-items: center;
 }
 
-.main {
+.thumbnail {
+  width: 64px;
+  height: 64px;
+  margin-right: 1em;
+
+  border-radius: var(--radius-small);
+  overflow: hidden;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+}
+
+.main,
+.name {
   flex-grow: 1;
   flex-shrink: 1;
+  margin-right: 1em;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.thumbnail,
+.secondary {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.type,
+.secondary {
+  color: var(--grey)
 }
 
 </style>

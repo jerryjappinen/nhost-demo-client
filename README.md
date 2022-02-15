@@ -59,7 +59,7 @@ Then, define relationships:
 - From `files` to `uploads`
   - Go to `files` table
   - Under "Modify"
-    - Add a column `upload_id` (UUID)
+    - Add a column `upload_id` (UUID, NULLABLE)
     - Add a *foreign key* to `public.uploads` (`upload_id` → `id`)
   - Under "Relationships", add the suggested *Object relationship* to `uploads`
   - Also go and add the reverse relationships in:
@@ -76,7 +76,7 @@ Then, define relationships:
 
 ### 3. Permissions
 
-All requests will be made with the role `user`. You have to add it when editing permissions for the first time.
+All authenticated requests will be made with the role `user`. You have to add it when editing permissions for the first time.
 
 In the `users` table:
 
@@ -87,7 +87,7 @@ In the `users` table:
 In `uploads` table:
 
 - I want to create new `upload` objects, if I'm authenticated and my user exists. Add `insert` permission:
-  - Row select permissions: `{"_exists":{"_table":{"schema":"auth","name":"users"},"_where":{"id":{"_eq":"X-Hasura-User-Id"}}}}`
+  - Row select permissions: "Without any checks"
   - Column select permissions: "Toggle all"
 - I want to read `uploads` whose owner is me. Add `select` permission
   - Row select permissions: `{"owner_user_id":{"_eq":"X-Hasura-User-Id"}}`
@@ -101,16 +101,24 @@ In `uploads` table:
 In `files` table:
 
 - I want to upload files if I have an account and am logged in. Add `insert` permission:
-  - Row select permissions: `{"_exists":{"_table":{"schema":"auth","name":"users"},"_where":{"id":{"_eq":"X-Hasura-User-Id"}}}}`
+  - Row select permissions: "Without any checks"
   - Column select permissions: "Toggle all"
 - I want to read files that are in `uploads` whose owner is me. Add `select` permission:
-  - Row select permissions: `{"upload":{"owner_user_id":{"_eq":"X-Hasura-User-Id"}}}`
+  - Row select permissions: `{"_or":[{"upload":{"owner_user_id":{"_eq":"X-Hasura-User-Id"}}},{"uploaded_by_user_id":{"_eq":"X-Hasura-User-Id"}}]}`
   - Column select permissions: "Toggle all"
 - I want to update the `upload_id` of files. Add `update` permission:
   - Row select permissions: "Same as select"
   - Column select permissions: `upload_id`
 - I want to remove files. Add `delete` permission:
   - Row select permissions: "Same as select, pre update"
+
+We also want files to have viewable link, but not let them be queryable without authorisation. This can be achieved using the `public` role:
+
+- Go to `files` and "Permissions"
+- Add a new role called `public`, and add these `select` permissions
+  - Row select permissions: "Without any checks"
+  - *Limit number of rows* to `0`
+  - Column select permissions: "Toggle all"
 
 ### 4. `files.createdBy`
 

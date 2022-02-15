@@ -1,6 +1,7 @@
 import nhost from '@/util/nhost'
 
 // Creates a new `upload` object
+// NOTE: We could let Hasura auto populate `owner_user_id`, same as files
 export default async (ownerUserId) => {
   const { data, error } = await nhost.graphql.request(`mutation {
     insert_uploads (

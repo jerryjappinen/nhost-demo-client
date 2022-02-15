@@ -61,6 +61,7 @@ export default {
       v-for="file in upload.files"
       :key="file.id"
       :file="file"
+      class="file"
     />
 
     <!-- Display upload data -->
@@ -89,6 +90,10 @@ export default {
   border-radius: var(--radius-medium);
   background-color: var(--very-dark);
   display: block;
+}
+
+.file {
+  margin-bottom: 1em;
 }
 
 .details {

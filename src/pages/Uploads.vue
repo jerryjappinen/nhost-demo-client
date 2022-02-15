@@ -21,11 +21,15 @@ export default {
 
     // FIXME: a view shouldn't calculate this. Can I get this from store or server?
     totalFileSize () {
-      return this.uploads.reduce((totalSize, upload) => {
-        return totalSize + upload.files.reduce((file) => {
-          return file.size
+      if (this.uploads && this.uploads.length) {
+        return this.uploads.reduce((totalFileSize, upload) => {
+          return totalFileSize + upload.files.reduce((uploadFileSize, file) => {
+            return uploadFileSize + file.size
+          }, 0)
         }, 0)
-      }, 0)
+      }
+
+      return 0
     },
 
     formattedTotalFileSize () {
@@ -66,13 +70,15 @@ export default {
     <!-- File list -->
     <Uploader />
 
-    <div
-      v-for="upload in uploads"
-      :key="upload.id"
-      class="list-item"
-    >
-      <UploadTeaser :upload="upload" />
-    </div>
+    <template v-if="uploads && uploads.length">
+      <div
+        v-for="upload in uploads"
+        :key="upload.id"
+        class="list-item"
+      >
+        <UploadTeaser :upload="upload" />
+      </div>
+    </template>
   </div>
 </template>
 
