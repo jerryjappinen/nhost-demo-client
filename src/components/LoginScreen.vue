@@ -2,6 +2,8 @@
 import Card from '@/components/Card'
 import ClickButton from '@/components/ClickButton'
 
+import { nhostBackendUrl } from '@/config'
+
 export default {
 
   components: {
@@ -11,12 +13,21 @@ export default {
 
   data () {
     return {
+      nhostBackendUrl,
       inputEmail: '',
       emailSent: false
     }
   },
 
   computed: {
+
+    domain () {
+      if ((typeof window) !== 'undefined') {
+        return window.location.host
+      }
+
+      return ''
+    },
 
     isLoading () {
       return this.$store.state.currentUserIsLoading
@@ -90,8 +101,12 @@ export default {
     <!-- Disclaimer -->
     <p class="disclaimer">
       <a href="/">
-        nhost-demo-client.vercel.app
+        {{ domain }}
       </a>
+    </p>
+
+    <p class="disclaimer">
+      {{ nhostBackendUrl }}
     </p>
   </div>
 </template>
