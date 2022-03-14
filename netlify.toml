@@ -1,0 +1,10 @@
+# This SPA handles routing internally, so we always stay in index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Build config
+[build]
+  command = "npm run build"
+  publish = "dist"
