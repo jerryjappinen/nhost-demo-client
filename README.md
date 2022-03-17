@@ -6,7 +6,6 @@ This demo app showcases a simple integration with an [Nhost](https://nhost.io/) 
 - Sign in a new or existing user
 - Create, read, update and delete data with GraphQL
 - Display preview images using server-side image transformations
-- Use presigned URLs to link to files which are normally restricted
 
 # Frontend app
 
