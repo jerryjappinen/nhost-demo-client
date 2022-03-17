@@ -7,7 +7,7 @@ This demo app showcases a simple integration with an [Nhost](https://nhost.io/) 
 - Create, read, update and delete data with GraphQL
 - Display preview images using server-side image transformations
 
-# Frontend app
+# Frontend
 
 Recommended node version is 14 LTS or 16 LTS.
 
