@@ -62,17 +62,14 @@ Then, define relationships:
     - Add a column `upload_id` (UUID, NULLABLE)
     - Add a *foreign key* to `public.uploads` (`upload_id` → `id`)
   - Under "Relationships", add the suggested *Object relationship* to `uploads`
-  - Also go and add the reverse relationships in:
-    - `uploads` (array)
-    - `users` (array)
+  - Also go and add the reverse relationships in `uploads` (array)
 - From `uploads` to `users`
   - Go to `uploads` table
   - Under "Modify"
     - You should see the column `owner_user_id` (UUID)
     - Add a *foreign key* to `auth.users` (`owner_user_id` → `id`)
     - Under "Relationships", add the suggested *Object relationship* to `users`
-  - Also go and add the reverse relationships in:
-    - `users` (array)
+  - Also go and add the reverse relationships in `users` (array)
 
 ### 3. Permissions
 
@@ -87,30 +84,30 @@ In the `users` table:
 In `uploads` table:
 
 - I want to create new `upload` objects, if I'm authenticated and my user exists. Add `insert` permission:
-  - Row select permissions: "Without any checks"
-  - Column select permissions: "Toggle all"
+  - Row insert permissions: "Without any checks"
+  - Column insert permissions: "Toggle all"
 - I want to read `uploads` whose owner is me. Add `select` permission
   - Row select permissions: `{"owner_user_id":{"_eq":"X-Hasura-User-Id"}}`
   - Column select permissions: "Toggle all"
 - I want to change the owner of `uploads` whose current owner is me. Add `update` permission
-  - Row select permissions: "Same as select"
-  - Column select permissions: `owner_user_id`
+  - Row update permissions: "Same as select"
+  - Column update permissions: `owner_user_id`
 - I want remove `uploads` whose owner is me. Add `delete` permission
-  - Row select permissions: "Same as select, pre update"
+  - Row remove permissions: "Same as select, pre update"
 
 In `files` table:
 
 - I want to upload files if I have an account and am logged in. Add `insert` permission:
-  - Row select permissions: "Without any checks"
-  - Column select permissions: "Toggle all"
+  - Row insert permissions: "Without any checks"
+  - Column insert permissions: "Toggle all"
 - I want to read files that are in `uploads` whose owner is me. Add `select` permission:
   - Row select permissions: `{"_or":[{"upload":{"owner_user_id":{"_eq":"X-Hasura-User-Id"}}},{"uploaded_by_user_id":{"_eq":"X-Hasura-User-Id"}}]}`
   - Column select permissions: "Toggle all"
 - I want to update the `upload_id` of files. Add `update` permission:
-  - Row select permissions: "Same as select"
-  - Column select permissions: `upload_id`
+  - Row update permissions: "Same as select"
+  - Column update permissions: `upload_id`
 - I want to remove files. Add `delete` permission:
-  - Row select permissions: "Same as select, pre update"
+  - Row remove permissions: "Same as select, pre update"
 
 We also want files to have viewable link, but not let them be queryable without authorisation. This can be achieved using the `public` role:
 
