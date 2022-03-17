@@ -8,9 +8,11 @@ This demo app showcases a simple integration with an [Nhost](https://nhost.io/) 
 - Display preview images using server-side image transformations
 - Use presigned URLs to link to files which are normally restricted
 
-### Running locally
+# Frontend app
 
 Recommended node version is 14 LTS or 16 LTS.
+
+### Commands
 
 ```sh
 # Install dependencies
@@ -20,6 +22,10 @@ npm install
 ```sh
 # Start project locally
 npm run serve
+
+# Start project locally
+# Connects to the development backend running on localhost
+npm run serve:local
 
 # Build static app
 npm run build
@@ -37,9 +43,34 @@ npm run test:watch
 
 # Server setup
 
-This app interacts with a backend on Nhost. You can sign up and create a new app for free on [nhost.io](https://nhost.io).
+This app interacts with a backend on Nhost. This repo includes the backend setup that can be run either locally or on [nhost.io](https://nhost.io).
 
-After creating a new app on Nhost, we need to do the set up the following things:
+### Cloud environment
+
+First, go to GitHub and [fork this repository](https://github.com/jerryjappinen/nhost-demo-client).
+
+Then, sign up for free on [nhost.io](https://app.nhost.io). Once you're logged in, create a new App on any region of your choice.
+
+After creating the app, press _Connect to GitHub_, and pick your fork of this repository. Nhost will then deploy this app.
+
+Add the backend URL as an environment variable (`VUE_APP_NHOST_BACKEND_URL`) or edit `src/config.js` to connect to your new backend.
+
+### Local development environment
+
+To run the backend in a local development environment:
+
+1. Install [Nhost CLI](https://docs.nhost.io/platform/nhost/local-development)
+2. Install [Docker](https://docker.io) and make sure it's running
+3. Run `nhost dev` in terminal
+
+The CLI will start the development environment and show you where it's running. Add this backend URL as an environment variable (`VUE_APP_NHOST_BACKEND_URL`) or edit `src/config.js` to connect to your new backend.
+
+---
+
+
+# Server setup (manual)
+
+If you want to set things up manually, or just understand how the setup process is done, follow these steps after creating a new Nhost app:
 
 ### 1. Enable authentication
 
