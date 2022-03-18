@@ -83,6 +83,7 @@ export default {
             v-model="inputEmail"
             placeholder="Enter email"
             :disabled="emailSent"
+            required
             type="email"
             name="email"
             class="input"
@@ -90,7 +91,7 @@ export default {
         </p>
 
         <ClickButton
-          :disabled="!!(isLoading || emailSent)"
+          :disabled="!!(!inputEmail || isLoading || emailSent)"
           type="submit"
         >
           Send Login Link
