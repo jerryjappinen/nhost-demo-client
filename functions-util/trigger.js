@@ -1,6 +1,6 @@
 // Helper function that ensures a webhook is triggered by the Nhost backend
 // Read more: https://docs.nhost.io/platform/serverless-functions/event-triggers
-export default async (handler) => {
+export default (handler) => {
   return async (req, res) => {
     console.log('REQ', req)
 
