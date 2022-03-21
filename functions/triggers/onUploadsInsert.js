@@ -14,7 +14,7 @@ export default trigger(async (req, res) => {
   // In a real app, you could use this approach for business analytics
   // You could also send data into an external platform like Amplitude
   // NOTE: This function is invoked after insert. It won't delay the actual insert operation
-  const { data, error } = await nhost.graphql.request(`mutation ($message: String!, $data: JSON, $userId: ID) {
+  const { data, error } = await nhost.graphql.request(`mutation ($message: String!, $data: jsonb, $userId: ID) {
     insert_logs (
       objects: [
         {
@@ -38,7 +38,7 @@ export default trigger(async (req, res) => {
     }
   })
 
-  console.warn('Error in pn UploadsInsert trigger', error)
+  console.warn('Error in UploadsInsert trigger', error)
 
   if (error) {
     throw new Error(error.message)
