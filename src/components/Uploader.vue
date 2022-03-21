@@ -65,9 +65,7 @@ export default {
         this.$store.commit('storeUploads', [upload])
 
         // Clear input to let user upload again
-        setTimeout(() => {
-          this.uploadedFiles = []
-        }, 2000)
+        setTimeout(this.clear, 2000)
       }
     }
 
@@ -86,6 +84,12 @@ export default {
   },
 
   methods: {
+
+    // Clear input to let user upload again
+    clear () {
+      this.$refs.fileInput.value = ''
+      this.uploadedFiles = []
+    },
 
     refreshLocalFiles () {
       if (this.$refs.fileInput) {
@@ -152,7 +156,7 @@ export default {
   height: 100%;
   z-index: 2;
 
-  opacity: 0.01;
+  opacity: 0.0001;
 }
 
 .content {
