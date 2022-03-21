@@ -60,4 +60,4 @@ event_triggers:
     interval_sec: 10
     num_retries: 0
     timeout_sec: 60
-  webhook: "{{NHOST_BACKEND_URL}}/v1/functions/triggers/onUploadInsert"
+  webhook: "{{NHOST_BACKEND_URL}}/v1/functions/triggers/onUploadsInsert"
