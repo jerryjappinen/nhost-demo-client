@@ -41,6 +41,7 @@ export default trigger(async (req, res) => {
     }
   })
 
+  console.log('DATA', data, error)
 
   if (error) {
     // eslint-disable-next-line no-console
