@@ -21,7 +21,7 @@ export default trigger(async (req, res) => {
 
   // See event payload format:
   // https://hasura.io/docs/latest/graphql/core/event-triggers/payload.html
-  // console.log('onUploadsInsert', `(${upload})`)
+  // console.log('onUploadsInsert', `${JSON.stringify(upload)}`)
 
   // Writes a log entry into logs table
   // In a real app, you could use this approach for business analytics
