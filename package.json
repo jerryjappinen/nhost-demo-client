@@ -9,7 +9,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:local": "VUE_APP_NHOST_BACKEND_URL='http://localhost:1337' vue-cli-service serve",
-    "serve:backend": "nhost dev",
+    "backend": "nhost dev",
+    "backend:debug": "nhost dev -d",
     "build": "vue-cli-service build",
     "test": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
