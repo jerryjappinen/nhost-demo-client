@@ -22,7 +22,7 @@ export default trigger(async (req, res) => {
   // See event payload format:
   // https://hasura.io/docs/latest/graphql/core/event-triggers/payload.html
   // eslint-disable-next-line no-console
-  console.log('onUploadsInsert', process.env.NHOST_ADMIN_SECRET, `(${upload.id})`)
+  console.log('onUploadsInsert', `(${upload.id})`)
 
   // Writes a log entry into logs table
   // In a real app, you could use this approach for business analytics
@@ -43,7 +43,8 @@ export default trigger(async (req, res) => {
 
 
   if (error) {
-    console.warn('Error in UploadsInsert trigger', error)
+    // eslint-disable-next-line no-console
+    console.warn(`Error in UploadsInsert trigger (using "${process.env.NHOST_ADMIN_SECRET}")`, error)
 
     res.status(400).json(error)
   }
