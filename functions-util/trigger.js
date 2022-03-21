@@ -2,7 +2,7 @@
 // Read more: https://docs.nhost.io/platform/serverless-functions/event-triggers
 export default (handler) => {
   return async (req, res) => {
-    console.log('REQ', req)
+    console.log('admin secret', process.env.NHOST_ADMIN_SECRET)
 
     // Check webhook secret to make sure the request is valid
     if (req.headers['nhost-webhook-secret'] !== process.env.NHOST_WEBHOOK_SECRET) {

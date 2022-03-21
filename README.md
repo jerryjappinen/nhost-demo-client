@@ -156,3 +156,38 @@ If we upload a file, we want the backend to automatically create a reference to 
 - Select the `user` role's `insert` permissions
 - Scroll down and click "Column presets"
 - Select `uploaded_by_user_id` → from session variable → `X-Hasura-User-Id`
+
+### 5. Event triggers
+
+It's common to trigger behavior whenever an object is created or deleted, for example. In this app, we want to write an entry into a `logs` table every time an `Upload` is created. This can be achieved using *Events* and *Functions*.
+
+First, let's create a place for our logs:
+
+- Create a table called `logs` (under `public`) with the following columns:
+  - `id` (UUID, primary key)
+  - `message` (String)
+  - `user_id` (UUID, nullable)
+  - `data` (JSONB, nullable)
+- Create "Foreign key":
+  - From `user_id` → `auth.users.id`
+- Create relationship:
+  - Add the suggested object relationship (`logs.user_id` → `users.id`)
+
+Since we will write `logs` as an admin, we don't need to set any permissions.
+
+We must first create an event trigger. In Hasura Console, go to "Events":
+
+- Click on *Create*
+  - Trigger name: "onUploadsInsert"
+  - Database table: `default` → `public.uploads`
+  - Trigger opetation: On table `insert`
+  - Webhook URL: `{{NHOST_BACKEND_URL}}/v1/functions/triggers/onUploadsInsert`
+- Under "Advanced", add a header:
+  - Key: `nhost-webhook-secret`
+  - Value: change `Value` to 'From env var`
+  - Enter `NHOST_WEBHOOK_SECRET`
+- Click "Create Event Trigger"
+
+Now, after the event has been created, Hasura will send a POST request to the URL you defined. Because we have the corresponding function in this repository, it will have been deployed to that URL to receive that request.
+
+You can see how `functions/triggers/onUploadsInsert.js` looks like to understand what's happening.
