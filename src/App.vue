@@ -17,21 +17,19 @@ export default {
 
     isSignedIn () {
       return this.$store.getters.isSignedIn
+    },
+
+    isLoading () {
+      return this.$store.state.currentUserIsLoading
     }
 
   },
 
   mounted () {
-    // The callback will run when nhost-js has successfully or unsuccessfully finished with signing the user in or out
     nhost.auth.onAuthStateChanged(() => {
+      // The callback will run when nhost-js has (successfully or unsuccessfully) finished with signing the user in or out
       this.$store.dispatch('refreshAuthStatus')
     })
-
-    // FIXME: bug in nhost-js forces us to manually update logged-in state
-    // https://github.com/nhost/nhost-js/issues/27
-    setTimeout(() => {
-      this.$store.dispatch('refreshAuthStatus')
-    }, 3 * 1000)
   }
 
 }
@@ -47,7 +45,10 @@ export default {
       />
 
       <!-- Routed content for logged-in users only -->
-      <div class="routed-content-main">
+      <div
+        v-if="!isLoading"
+        class="routed-content-main"
+      >
         <RouterView v-if="isSignedIn" />
         <LoginScreen v-else />
       </div>
